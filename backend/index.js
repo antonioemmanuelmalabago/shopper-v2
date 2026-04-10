@@ -16,11 +16,6 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET)
 // Database Connection with MongoDB
 mongoose.connect(process.env.MONGODB_URI)
 
-// API Creation
-app.get('/', (req, res) => {
-  res.send('Express App is Running')
-})
-
 // Image Storage Engine
 const storage = multer.diskStorage({
   destination: './upload/images',
