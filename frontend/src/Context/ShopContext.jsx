@@ -14,7 +14,6 @@ const getDefaultCart = () => {
 const ShopContextProvider = (props) => {
   const [all_product, setAllProduct] = useState([])
   const [cartItems, setCartItems] = useState(getDefaultCart())
-  console.log(cartItems)
 
   useEffect(() => {
     fetch(`/allproducts`)
@@ -79,7 +78,6 @@ const ShopContextProvider = (props) => {
         let itemInfo = all_product.find(
           (product) => product.id === Number(item),
         )
-        console.log(itemInfo)
         totalAmount += itemInfo.new_price * cartItems[item]
       }
     }
