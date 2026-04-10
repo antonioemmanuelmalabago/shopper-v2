@@ -14,9 +14,7 @@ app.use(cors())
 const stripe = require('stripe')(process.env.STRIPE_SECRET)
 
 // Database Connection with MongoDB
-mongoose.connect(
-  'mongodb+srv://amadeus_e-commerce:%40m%40d3Us%21@cluster0.6ltxkro.mongodb.net/e-commerce'
-)
+mongoose.connect(process.env.MONGODB_URI)
 
 // API Creation
 app.get('/', (req, res) => {
@@ -29,7 +27,7 @@ const storage = multer.diskStorage({
   filename: (req, file, cb) => {
     return cb(
       null,
-      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`
+      `${file.fieldname}_${Date.now()}${path.extname(file.originalname)}`,
     )
   },
 })
@@ -243,7 +241,7 @@ app.post('/addtocart', fetchUser, async (req, res) => {
   userData.cartData[req.body.itemId] += 1
   await Users.findOneAndUpdate(
     { _id: req.user.id },
-    { cartData: userData.cartData }
+    { cartData: userData.cartData },
   )
   res.json({ status: 'Product Added to Cart' })
 })
@@ -257,7 +255,7 @@ app.post('/removefromcart', fetchUser, async (req, res) => {
   }
   await Users.findOneAndUpdate(
     { _id: req.user.id },
-    { cartData: userData.cartData }
+    { cartData: userData.cartData },
   )
   res.json({ status: 'Product Removed from Cart' })
 })
@@ -273,7 +271,7 @@ app.post('/create-checkout-session', async (req, res) => {
   const { products } = req.body
 
   const filteredCart = Object.fromEntries(
-    Object.entries(products).filter(([key, value]) => value > 0)
+    Object.entries(products).filter(([key, value]) => value > 0),
   )
 
   const productIds = Object.keys(filteredCart)
@@ -302,6 +300,12 @@ app.post('/create-checkout-session', async (req, res) => {
 
   res.json({ id: session.id })
 })
+
+// Serve frontend static files
+app.use(express.static(path.join(__dirname, '../frontend/build')))
+app.get('*', (req, res) =>
+  res.sendFile(path.join(__dirname, '../frontend/build/index.html')),
+)
 
 app.listen(port, (error) => {
   if (!error) {
