@@ -5,10 +5,8 @@ import Item from '../Item/Item'
 const Popular = () => {
   const [popular_products, setPopularProducts] = useState([])
 
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
-
   useEffect(() => {
-    fetch(`${BACKEND_URL}/popularinwomen`)
+    fetch(`/popularinwomen`)
       .then((res) => res.json())
       .then((data) => {
         setPopularProducts(data)

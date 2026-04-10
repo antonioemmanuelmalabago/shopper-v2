@@ -5,10 +5,8 @@ import Item from '../Item/Item'
 const NewCollections = () => {
   const [new_collections, setNewCollection] = useState([])
 
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
-
   useEffect(() => {
-    fetch(`${BACKEND_URL}/newcollection`)
+    fetch(`/newcollection`)
       .then((res) => res.json())
       .then((data) => {
         setNewCollection(data)

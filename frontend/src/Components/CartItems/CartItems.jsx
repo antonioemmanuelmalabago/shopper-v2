@@ -8,8 +8,6 @@ const CartItems = () => {
   const { all_product, cartItems, removeFromCart, getTotalCartAmount } =
     useContext(ShopContext)
 
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
-
   const makePayment = async () => {
     const stripe = await loadStripe(`${process.env.REACT_APP_STRIPE_KEY}`)
     const body = {
@@ -18,7 +16,7 @@ const CartItems = () => {
     const headers = {
       'Content-Type': 'application/json',
     }
-    const response = await fetch(`${BACKEND_URL}/create-checkout-session`, {
+    const response = await fetch(`/create-checkout-session`, {
       method: 'POST',
       headers: headers,
       body: JSON.stringify(body),

@@ -9,15 +9,13 @@ const LoginSignup = () => {
     email: '',
   })
 
-  const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
-
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value })
   }
 
   const login = async () => {
     let responseData
-    await fetch(`${BACKEND_URL}/login`, {
+    await fetch(`/login`, {
       method: 'POST',
       headers: {
         Aceept: 'application/form-data',
@@ -38,7 +36,7 @@ const LoginSignup = () => {
 
   const signup = async () => {
     let responseData
-    await fetch(`${BACKEND_URL}/signup`, {
+    await fetch(`/signup`, {
       method: 'POST',
       headers: {
         Accept: 'application/form-data',
